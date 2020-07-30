@@ -1,0 +1,6 @@
+target
+test_run_dir
+*.v
+*.hi.fir
+*.fir
+*.anno.json
