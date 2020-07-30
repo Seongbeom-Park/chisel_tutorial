@@ -1,7 +1,8 @@
+*.anno.json
+*.fir
+*.hi.fir
+*.v
+
+project
 target
 test_run_dir
-project
-*.v
-*.hi.fir
-*.fir
-*.anno.json
