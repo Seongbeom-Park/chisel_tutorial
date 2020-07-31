@@ -21,7 +21,7 @@ class ClockExamples extends Module {
   withReset(io.alternateReset) {
     val altRst = RegInit(0.U(10.W))
     altRst := io.in
-    io.outAternateReset := altRst
+    io.outAlternateReset := altRst
   }
 
   withClock(io.alternateClock) {
