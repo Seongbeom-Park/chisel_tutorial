@@ -22,13 +22,12 @@ class BinaryMealy(val mp: BinaryMealyParams) extends Module {
 
   io.out := 0.U
   for (s <- 0 until mp.nStates) {
-    when (state === s.U) {
-      when (io.in) {
-        state := mp.stateTransition(s, true).U
-        io.out := mp.output(s, true).U
-      } .otherwise {
-        state := mp.stateTransition(s, false).U
-        io.out := mp.output(s, false).U
+    for (b <- Vector(true, false)) {
+      when (state === s.U) {
+        when (io.in === b.B) {
+          state := mp.stateTransition(s, b).U
+          io.out := mp.output(s, b).U
+        }
       }
     }
   }
