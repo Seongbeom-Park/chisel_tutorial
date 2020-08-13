@@ -139,4 +139,130 @@ class Tester extends FunSuite {
     }
     assert(testResult, "failed")
   }
+
+  test("HalfFullAdder module correctness test HalfAdder (false)") {
+    val testResult = Driver(() => new HalfFullAdder(false)) {
+      c => new PeekPokeTester (c) {
+        require(!c.hasCarry, "DUT must be half adder")
+        // 0 + 0 = 0
+        poke(c.io.a, 0)
+        poke(c.io.b, 0)
+        expect(c.io.s, 0)
+        expect(c.io.carryOut, 0)
+        // 0 + 1 = 1
+        poke(c.io.b, 1)
+        expect(c.io.s, 1)
+        expect(c.io.carryOut, 0)
+        // 1 + 1 = 2
+        poke(c.io.a, 1)
+        expect(c.io.s, 0)
+        expect(c.io.carryOut, 1)
+        // 1 + 0 = 1
+        poke(c.io.b, 0)
+        expect(c.io.s, 1)
+        expect(c.io.carryOut, 0)
+      }
+    }
+    assert(testResult, "failed")
+  }
+
+  test("HalfFullAdder module correctness test FullAdder (true)") {
+    val testResult = Driver(() => new HalfFullAdder(true)) {
+      c => new PeekPokeTester (c) {
+        require(c.hasCarry, "DUT must be half adder")
+        poke(c.io.carryIn.get, 0)
+        // 0 + 0 + 0 = 0
+        poke(c.io.a, 0)
+        poke(c.io.b, 0)
+        expect(c.io.s, 0)
+        expect(c.io.carryOut, 0)
+        // 0 + 0 + 1 = 1
+        poke(c.io.b, 1)
+        expect(c.io.s, 1)
+        expect(c.io.carryOut, 0)
+        // 0 + 1 + 1 = 2
+        poke(c.io.a, 1)
+        expect(c.io.s, 0)
+        expect(c.io.carryOut, 1)
+        // 0 + 1 + 0 = 1
+        poke(c.io.b, 0)
+        expect(c.io.s, 1)
+        expect(c.io.carryOut, 0)
+      
+        poke(c.io.carryIn.get, 1)
+        // 1 + 0 + 0 = 1
+        poke(c.io.a, 0)
+        poke(c.io.b, 0)
+        expect(c.io.s, 1)
+        expect(c.io.carryOut, 0)
+        // 1 + 0 + 1 = 2
+        poke(c.io.b, 1)
+        expect(c.io.s, 0)
+        expect(c.io.carryOut, 1)
+        // 1 + 1 + 1 = 3
+        poke(c.io.a, 1)
+        expect(c.io.s, 1)
+        expect(c.io.carryOut, 1)
+        // 1 + 1 + 0 = 2
+        poke(c.io.b, 0)
+        expect(c.io.s, 0)
+        expect(c.io.carryOut, 1)
+      }
+    }
+    assert(testResult, "failed")
+  }
+
+  test("BinaryMealy module correctness test") {
+    val nStates = 3
+    val s0 = 2
+    def stateTransision(state: Int, in: Boolean): Int = {
+      if (in) {
+        1
+      } else {
+        0
+      }
+    }
+    def output(state: Int, in: Boolean): Int = {
+      if (state == 2) {
+        0
+      } else if ((state == 1 && !in) || (state == 0 && in)) {
+        1
+      } else {
+        0
+      }
+    }
+    val testParams = BinaryMealyParams(nStates, s0, stateTransision, output)
+
+    val testResult = Driver(() => new BinaryMealy(testParams)) {
+      c => new PeekPokeTester(c) {
+        poke(c.io.in, false)
+        expect(c.io.out, 0)
+        step(1)
+        poke(c.io.in, false)
+        expect(c.io.out, 0)
+        step(1)
+        poke(c.io.in, false)
+        expect(c.io.out, 0)
+        step(1)
+        poke(c.io.in, true)
+        expect(c.io.out, 1)
+        step(1)
+        poke(c.io.in, true)
+        expect(c.io.out, 0)
+        step(1)
+        poke(c.io.in, false)
+        expect(c.io.out, 1)
+        step(1)
+        poke(c.io.in, true)
+        expect(c.io.out, 1)
+        step(1)
+        poke(c.io.in, false)
+        expect(c.io.out, 1)
+        step(1)
+        poke(c.io.in, true)
+        expect(c.io.out, 1)
+      }
+    }
+    assert(testResult, "failed")
+  }
 }
