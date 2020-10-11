@@ -3,6 +3,8 @@
 *.hi.fir
 *.v
 
+.metals/metals.log
+
 project
 target
 test_run_dir

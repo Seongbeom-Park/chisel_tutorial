@@ -1,0 +1,44 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "scala",
+            "name": "first_module",
+            "request": "launch",
+            "testClass": "first_module.FirstModuleTester"
+        },
+        {
+            "type": "scala",
+            "request": "launch",
+            "name": "comb_logic",
+            "testClass": "comb_logic.CombLogicTester"
+        },
+        {
+            "type": "scala",
+            "request": "launch",
+            "name": "control_flow",
+            "testClass": "control_flow.ControlFlowTester"
+        },
+        {
+            "type": "scala",
+            "request": "launch",
+            "name": "sequential_logic",
+            "testClass": "sequential_logic.SequentialLogicTester"
+        },
+        {
+            "type": "scala",
+            "request": "launch",
+            "name": "exercise",
+            "testClass": "exercise.ExerciseTester"
+        },
+        {
+            "type": "scala",
+            "request": "launch",
+            "name": "parameters",
+            "testClass": "parameters.Tester"
+        },
+    ]
+}
